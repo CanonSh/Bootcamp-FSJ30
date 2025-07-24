@@ -31,9 +31,10 @@ function agregarCurso(evento){
                 //Transformamos el string a numero
                 //parseInt o parseFloat
                 cursoArr.precio = parseFloat(cursoArr.precio);
+                let precioCurso=parseFloat(curso.precio.substring(1));//precio del curso original
 
                 //Aumentamos el precio
-                cursoArr.precio += cursoArr.precio;
+                cursoArr.precio += precioCurso;
 
                 //Devolvemos el precio a su formato original
                 cursoArr.precio = `$${cursoArr.precio}`;
@@ -91,17 +92,31 @@ function pintarCarritoHTML(){
 }
 
 function eliminarCurso(id){
-console.log(id);
+//console.log(id);
 
 cursosCarrito.map( (curso) => {
-        console.log(curso.id);
+    //console.log(curso.id);
 
     //Si tiene cantidad mayor a 1, tiene que ir descontando de 1 en 1
 
     if(curso.id == id){
-        console.log(curso.id);
-        //Va a guardar los cursos que sean diferentes a ese ID
-        cursosCarrito = cursosCarrito.filter( curso => curso.id != id)
+        if(curso.cantidad==1){
+            //Va a guardar los cursos que sean diferentes a ese ID
+            cursosCarrito = cursosCarrito.filter( curso => curso.id != id)
+
+        }
+        else{
+            //Obtenemos el precio de todos los curso
+            let precioactual=parseFloat(curso.precio.substring(1))
+            //calculamos el precio de 1 solo curso
+            let preciocurso=precioactual/curso.cantidad
+            //disminuye en 1 la cantidad del curso en el carrito
+            curso.cantidad--;
+            //restamos el precio de un curso
+            curso.precio=`$${(precioactual-preciocurso)}`
+            
+        }
+        //console.log(curso.id);
     }
 
 })
